@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO.Ports;
+using System.Threading;
 
 public class bubbleGen : MonoBehaviour
 {
@@ -13,28 +15,62 @@ public class bubbleGen : MonoBehaviour
     //Bubble Colors
     public GameObject[] bubble;
 
+    int messageInt;
+
+    
+    Thread IOThread = new Thread(DataThread);
+    private static SerialPort sp;
+    private static string incomingMsg = "";
+
+    private static void DataThread()
+    {
+        //Mac - /dev/cu.usbmodem1101
+        //PC - COM
+        sp = new SerialPort("/dev/cu.usbmodem1101", 9600);
+        sp.Open();
+
+        while (true)
+        {
+            incomingMsg = sp.ReadExisting();
+            Thread.Sleep(200);
+        }
+    }
+
+    private void OnDestory()
+    {
+        IOThread.Abort();
+        sp.Close();
+    }
+
     private void Start()
     {
-        StartCoroutine(myCounter());
+        //StartCoroutine(myCounter());
+        IOThread.Start();
     }
     void Update()
     {
-        if (Input.GetKeyUp("1")) //Input for "Bad"
+        messageInt = int.Parse(incomingMsg);
+        Debug.Log(incomingMsg + " " + messageInt);
+
+        //Note: make true or false instead of zero for new numbers
+        if (messageInt == 1)
         {
-            totalAmount.Add(0);
-            textScript.Instnace.badNum++;
+            bad();
+            incomingMsg = "0";
         }
-        else if (Input.GetKeyUp("2")) //Input for "Alright"
+        else if (messageInt == 2)
         {
-            totalAmount.Add(1);
-            textScript.Instnace.alrNum++;
+            alright();
+            incomingMsg = "0";
         }
-        else if (Input.GetKeyUp("3")) //Input for "Good"
+        else if (messageInt == 3)
         {
-            totalAmount.Add(2);
-            textScript.Instnace.goodNum++;
+            good();
+            incomingMsg = "0";
         }
     }
+
+    /*
     private IEnumerator myCounter()
     {
         if(totalAmount.Count > 0)
@@ -48,5 +84,34 @@ public class bubbleGen : MonoBehaviour
         }
         yield return new WaitForSeconds(.5f);
         StartCoroutine(myCounter());
+    }
+    */
+
+    void bad()
+    {
+        totalAmount.Add(0);
+        textScript.Instnace.badNum++;
+
+        int genThis = 0;
+        Vector3 randompawnPosition = new Vector3(Random.Range(-2f, 2f), -3.75f, Random.Range(-2f, 2f));
+        Instantiate(bubble[genThis], randompawnPosition, Quaternion.identity);
+    }
+    void alright()
+    {
+        totalAmount.Add(1);
+        textScript.Instnace.alrNum++;
+
+        int genThis = 1;
+        Vector3 randompawnPosition = new Vector3(Random.Range(-2f, 2f), -3.75f, Random.Range(-2f, 2f));
+        Instantiate(bubble[genThis], randompawnPosition, Quaternion.identity);
+    }
+    void good()
+    {
+        totalAmount.Add(2);
+        textScript.Instnace.goodNum++;
+
+        int genThis = 2;
+        Vector3 randompawnPosition = new Vector3(Random.Range(-2f, 2f), -3.75f, Random.Range(-2f, 2f));
+        Instantiate(bubble[genThis], randompawnPosition, Quaternion.identity);
     }
 }

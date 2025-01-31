@@ -7,14 +7,6 @@ public class testUno : MonoBehaviour
     Thread IOThread = new Thread(DataThread);
     private static SerialPort sp;
     private static string incomingMsg = "";
-    //private static string outgoingMsg = "";
-
-    public static testUno Instance { get; private set; }
-
-    private void Awake()
-    {
-        Instance = this;
-    }
 
     private static void DataThread()
     {
@@ -44,5 +36,36 @@ public class testUno : MonoBehaviour
     void Update()
     {
         Debug.Log(incomingMsg);
+        /*
+        if(incomingMsg == "1")
+        {
+            bad();
+            incomingMsg = "0";
+        }
+        else if(incomingMsg == "2")
+        {
+            alright();
+            incomingMsg = "0";
+        }
+        else if(incomingMsg == "3")
+        {
+            good();
+            incomingMsg = "0";
+        }
+    }
+
+    void bad()
+    {
+
+    }
+    void alright()
+    {
+
+    }
+    void good()
+    {
+
+    }
+    */
     }
 }

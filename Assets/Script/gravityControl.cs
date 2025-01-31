@@ -6,9 +6,9 @@ public class gravityControl : MonoBehaviour
 {
     void Start()
     {
-        Physics.gravity = new Vector3(0f, 2f, 0f);
+        Physics.gravity = new Vector3(0f, 1f, 0f);
 
-        Invoke("boom", 4.25f);
+        //Invoke("boom", 4.25f);
     }
     void boom()
     {
