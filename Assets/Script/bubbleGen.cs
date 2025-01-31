@@ -19,17 +19,17 @@ public class bubbleGen : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKeyUp("1"))
+        if (Input.GetKeyUp("1")) //Input for "Bad"
         {
             totalAmount.Add(0);
             textScript.Instnace.badNum++;
         }
-        else if (Input.GetKeyUp("2"))
+        else if (Input.GetKeyUp("2")) //Input for "Alright"
         {
             totalAmount.Add(1);
             textScript.Instnace.alrNum++;
         }
-        else if (Input.GetKeyUp("3"))
+        else if (Input.GetKeyUp("3")) //Input for "Good"
         {
             totalAmount.Add(2);
             textScript.Instnace.goodNum++;
