@@ -26,7 +26,7 @@ public class bubbleGen : MonoBehaviour
     {
         //Mac - /dev/cu.usbmodem1101
         //PC - COM
-        sp = new SerialPort("/dev/cu.usbmodem1101", 9600);
+        sp = new SerialPort("/dev/cu.usbmodem11301", 9600);
         sp.Open();
 
         while (true)
