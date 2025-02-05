@@ -17,7 +17,8 @@ public class bubbleGen : MonoBehaviour
 
     int messageInt;
 
-    
+    public AudioSource audioSource;
+
     Thread IOThread = new Thread(DataThread);
     private static SerialPort sp;
     private static string incomingMsg = "";
@@ -68,6 +69,12 @@ public class bubbleGen : MonoBehaviour
             good();
             incomingMsg = "0";
         }
+
+        if (messageInt == 5)
+        {
+            playSound();
+            incomingMsg = "0";
+        }
     }
 
     /*
@@ -113,5 +120,12 @@ public class bubbleGen : MonoBehaviour
         int genThis = 2;
         Vector3 randompawnPosition = new Vector3(Random.Range(-2f, 2f), -3.75f, Random.Range(-2f, 2f));
         Instantiate(bubble[genThis], randompawnPosition, Quaternion.identity);
+    }
+    void playSound()
+    {
+        if (!audioSource.isPlaying)
+        {
+            audioSource.Play();
+        }
     }
 }
